@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
             RotateAnimation rotateAnimation = new RotateAnimation(currentDegree, -azimuthInDegree,
-                    Animation.RELATIVE_TO_SELF, 05f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
             rotateAnimation.setDuration(250);
             rotateAnimation.setFillAfter(true);
