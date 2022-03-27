@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,8 +21,10 @@ import org.primeit.compassapplication.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
+    String TAG = "MainActivity";
 
     ActivityMainBinding binding;
+
     private static SensorManager sensorManager;
     private static Sensor accelerometerSensor;
     private static Sensor magnetometerSensor;
@@ -53,9 +56,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (event.sensor == accelerometerSensor) {
             System.arraycopy(event.values, 0, lastAccelerometer, 0, event.values.length);
             isLastAccelerometerArrayCopied = true;
+            Log.d(TAG, "isLastAccelerometerArrayCopied : " + true);
         } else if (event.sensor == magnetometerSensor) {
             System.arraycopy(event.values, 0, lastMagnetometer, 0, event.values.length);
             isLastMagnetometerArrayCopied = true;
+            Log.d(TAG, "isLastMagnetometerArrayCopied : " + true);
         }
 
         if (isLastAccelerometerArrayCopied && isLastMagnetometerArrayCopied && System.currentTimeMillis() - lastUpdatedTime > 250) {
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             float azimuthInRadians = orientation[0];
             float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
 
+            Log.d(TAG, "azimuthInRadians : " + azimuthInRadians);
 
             RotateAnimation rotateAnimation = new RotateAnimation(currentDegree, -azimuthInDegree,
                     Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -79,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             binding.textDegree.setText(x + "°");
 
+        } else {
+            Log.d(TAG, "else condition");
         }
 
     }
