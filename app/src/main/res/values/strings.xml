@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Compass Application</string>
+    <string name="_100">100</string>
+    <string name="about">About</string>
 </resources>

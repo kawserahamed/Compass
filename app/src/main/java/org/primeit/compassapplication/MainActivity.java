@@ -1,14 +1,19 @@
 package org.primeit.compassapplication;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.primeit.compassapplication.databinding.ActivityMainBinding;
@@ -17,45 +22,106 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     ActivityMainBinding binding;
-    private static SensorManager manager;
-    private static Sensor sensor;
-    private float current_degree;
+    private static SensorManager sensorManager;
+    private static Sensor accelerometerSensor;
+    private static Sensor magnetometerSensor;
+    private float[] lastAccelerometer = new float[3];
+    private float[] lastMagnetometer = new float[3];
+    private float[] rotationMatrix = new float[9];
+    private float[] orientation = new float[3];
 
+    boolean isLastAccelerometerArrayCopied = false;
+    boolean isLastMagnetometerArrayCopied = false;
+
+    long lastUpdatedTime = 0;
+    float currentDegree = 0f;
+
+    @SuppressLint("ServiceCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        setSupportActionBar(binding.toolbar);
+
+        sensorManager = (SensorManager) getSystemService(SEARCH_SERVICE);
+        accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        manager.registerListener(this, manager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, magnetometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        manager.unregisterListener(this);
+        sensorManager.unregisterListener(this, accelerometerSensor);
+        sensorManager.unregisterListener(this, magnetometerSensor);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (event.sensor == accelerometerSensor) {
+            System.arraycopy(event.values, 0, lastAccelerometer, 0, event.values.length);
+            isLastAccelerometerArrayCopied = true;
+        } else if (event.sensor == magnetometerSensor) {
+            System.arraycopy(event.values, 0, lastAccelerometer, 0, event.values.length);
+            isLastMagnetometerArrayCopied = true;
+        }
 
-        float degree = Math.round(event.values[0]);
-        RotateAnimation animation = new RotateAnimation(current_degree, -degree, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        animation.setDuration(120);
-        animation.setFillAfter(true);
-        binding.compass.startAnimation(animation);
-        current_degree = -degree;
+        if (isLastAccelerometerArrayCopied && isLastMagnetometerArrayCopied && System.currentTimeMillis() - lastUpdatedTime > 250) {
+            SensorManager.getRotationMatrix(rotationMatrix, null, lastAccelerometer, lastMagnetometer);
+            SensorManager.getOrientation(rotationMatrix, orientation);
+
+            float azimuthInRadians = orientation[0];
+            float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
+
+
+            RotateAnimation rotateAnimation = new RotateAnimation(currentDegree, -azimuthInDegree,
+                    Animation.RELATIVE_TO_SELF, 05f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+            rotateAnimation.setDuration(250);
+            rotateAnimation.setFillAfter(true);
+            binding.compass.startAnimation(rotateAnimation);
+            currentDegree = -azimuthInDegree;
+            lastUpdatedTime = System.currentTimeMillis();
+
+            int x = (int) azimuthInDegree;
+
+            binding.textDegree.setText(x + "°");
+
+        }
 
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_menu, menu);
+        return true;
+    }
+
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.about:
+                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
