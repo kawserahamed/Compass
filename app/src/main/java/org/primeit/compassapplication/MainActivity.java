@@ -36,15 +36,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     long lastUpdatedTime = 0;
     float currentDegree = 0f;
 
-    @SuppressLint("ServiceCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
-        sensorManager = (SensorManager) getSystemService(SEARCH_SERVICE);
+        sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }

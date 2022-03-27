@@ -8,10 +8,10 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:background="@color/purple_500"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/purple_500"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
