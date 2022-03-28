@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             SensorManager.getOrientation(rotationMatrix, orientation);
 
             float azimuthInRadians = orientation[0];
-            float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
+            float azimuthInDegree = (float) (Math.toDegrees(orientation[0])+360)%360;
 
             Log.d(TAG, "azimuthInRadians : " + azimuthInRadians);
 
