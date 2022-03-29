@@ -1,4 +1,4 @@
-package org.primeit.compassapplication;
+package org.primeit.compass;
 
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -15,7 +15,7 @@ import android.view.animation.RotateAnimation;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.primeit.compassapplication.databinding.ActivityMainBinding;
+import org.primeit.compass.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 

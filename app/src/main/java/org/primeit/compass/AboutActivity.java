@@ -1,10 +1,10 @@
-package org.primeit.compassapplication;
+package org.primeit.compass;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.primeit.compassapplication.databinding.ActivityAboutBinding;
+import org.primeit.compass.databinding.ActivityAboutBinding;
 
 import java.util.Objects;
 
