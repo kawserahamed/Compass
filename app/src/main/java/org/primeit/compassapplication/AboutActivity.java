@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.primeit.compassapplication.databinding.ActivityAboutBinding;
 
-public class AboutActivity extends AppCompatActivity {
+import java.util.Objects;
 
+public class AboutActivity extends AppCompatActivity {
 
     ActivityAboutBinding binding;
 
@@ -18,7 +19,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
