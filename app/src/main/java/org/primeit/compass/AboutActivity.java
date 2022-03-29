@@ -1,5 +1,8 @@
 package org.primeit.compass;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,7 @@ public class AboutActivity extends AppCompatActivity {
 
     ActivityAboutBinding binding;
 
+    @SuppressLint("IntentReset")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +24,11 @@ public class AboutActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        binding.tvPrivacyPolicy.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/prime-it-compass"));
+            startActivity(intent);
+        });
     }
 
     @Override
