@@ -15,7 +15,6 @@ public class AboutActivity extends AppCompatActivity {
 
     ActivityAboutBinding binding;
 
-    @SuppressLint("IntentReset")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_500"
+        android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent"
         app:title="About App" />
@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/app_name"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/privacy_policy"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
