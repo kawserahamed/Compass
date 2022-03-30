@@ -20,9 +20,7 @@ import org.primeit.compass.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     ActivityMainBinding binding;
-
     float currentDegree = 0f;
-
     SensorManager sensorManager;
 
     @Override
